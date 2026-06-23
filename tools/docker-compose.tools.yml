@@ -1,0 +1,89 @@
+version: "3.9"
+
+services:
+  stirling-pdf:
+    image: frooodle/s-pdf:latest
+    container_name: stirling-pdf
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:8080:8080"
+    environment:
+      - DOCKER_ENABLE_SECURITY=false
+      - SECURITY_ENABLELOGIN=false
+      - LANGS=en_en
+    networks:
+      - tools-net
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:3000:8080"
+    environment:
+      - PORT=8080
+      - ENABLE_OLLAMA_API=false
+      - OPENAI_API_BASE_URL=http://<ROUTER_PRIVATE_IP>:8000/llm/v1
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - open-webui-data:/app/backend/data
+    networks:
+      - tools-net
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/api/config"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+
+  browser-use:
+    build:
+      context: ./browser-use-service
+      dockerfile: Dockerfile
+    image: nebius10-browser-use:latest
+    container_name: browser-use
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:8001:8000"
+    networks:
+      - tools-net
+    profiles:
+      - browser-use
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  langflow:
+    image: langflowai/langflow:latest
+    container_name: langflow
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:7860:7860"
+    environment:
+      - LANGFLOW_SKIP_AUTH_AUTO_LOGIN=true
+    networks:
+      - tools-net
+    profiles:
+      - langflow
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:7860/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+
+networks:
+  tools-net:
+    driver: bridge
+
+volumes:
+  open-webui-data:

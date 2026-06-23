@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>10 Open-Source AI Tools, One Router, Zero Glue Code</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">10 Open-Source AI Tools, One Router, Zero Glue
+Code</h1>
+</header>
+<h1
+id="open-source-ai-tools-one-router-zero-glue-code-how-i-built-a-serverless-rag-workbench-on-nebius">10
+Open-Source AI Tools, One Router, Zero Glue Code: How I Built a
+Serverless RAG Workbench on Nebius</h1>
+<p><strong>AI Engineering</strong> · June 23, 2026<br />
+<em>Submission for the #NebiusServerlessChallenge</em></p>
+<blockquote>
+<p>I was tired of stitching together crawlers, vector databases, LLM
+endpoints, PDF tools, and chat UIs every time I started a new AI
+project. So I built one workbench that connects all of them — and runs
+entirely serverless on Nebius AI Cloud.</p>
+</blockquote>
+<hr />
+<p>A few months ago, I caught myself doing the same dance for the fifth
+time.</p>
+<p>Spin up a crawler. Chunk the text. Push embeddings into a vector
+store. Wire a FastAPI layer to an LLM endpoint. Then remember that
+someone will eventually ask, “Can it read PDFs too?” So I added Stirling
+PDF. Then, “Can we chat with it?” So I added Open WebUI. Then, “Can it
+scrape a website visually?” So I added Browser Use and Maxun. Every
+project became a pile of shell scripts, broken networking, and
+duplicated Docker Compose files.</p>
+<p>That’s the dirty secret of the current AI boom: the models are
+amazing, but the integration layer is still mostly manual labor. We
+don’t have a shortage of great open-source tools. We have a shortage of
+clean ways to make them work together.</p>
+<p>For the <strong>Nebius Serverless AI Builders Challenge</strong>, I
+decided to stop doing the integration dance and just build the dance
+floor once. The result is the <strong>Nebius 10-in-1 AI
+Workbench</strong>: a single FastAPI router that exposes ten open-source
+AI tools as one coherent pipeline, deployed serverless on Nebius.</p>
+<ul>
+<li><strong>GitHub repo:</strong> <a
+href="https://github.com/pyscalp/10in1-ai">github.com/pyscalp/10in1-ai</a></li>
+<li><strong>Live router:</strong>
+<code>http://<YOUR_ROUTER_IP>:8000</code></li>
+</ul>
+<hr />
+<h2 id="the-idea-one-http-router-to-rule-them-all">The idea: one HTTP
+router to rule them all</h2>
+<p>Instead of making users talk to ten different ports, ten different
+APIs, and ten different documentation pages, the workbench puts a thin
+router in front of everything. The router knows how to:</p>
+<ul>
+<li>Ingest a URL, crawl it, chunk it, embed it, and store the
+vectors.</li>
+<li>Answer a question using retrieved context plus a Nebius Serverless
+LLM endpoint.</li>
+<li>Reach PDF tools, a chat UI, browser agents, and visual scrapers
+through the same internal network.</li>
+</ul>
+<p>A user — or another application — only needs one URL and one Bearer
+token.</p>
+<p>The ten tools in the stack are:</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 40%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Tool</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><strong>Crawl4AI</strong></td>
+<td>Async, LLM-ready web crawling</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><strong>Stirling PDF</strong></td>
+<td>Self-hosted PDF conversion and OCR</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><strong>Open WebUI</strong></td>
+<td>ChatGPT-style self-hosted chat interface</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><strong>Supabase / PostgreSQL + pgvector</strong></td>
+<td>Vector storage and metadata</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><strong>Langflow</strong></td>
+<td>Visual builder for RAG and agent flows</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><strong>Dify</strong></td>
+<td>Ship AI apps with workflows and RAG</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><strong>Browser Use</strong></td>
+<td>AI browser agent for forms and automation</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td><strong>Maxun</strong></td>
+<td>Point-and-click visual scraping workflows</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td><strong>OpenHands</strong></td>
+<td>Autonomous coding agent for pipeline patches</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td><strong>Coolify</strong></td>
+<td>Self-hosting PaaS for router and frontends</td>
+</tr>
+</tbody>
+</table>
+<p>The first four are already wired into the live RAG flow. The rest are
+containerized and reachable; the adapters to expose them through the
+router are the next layer on the roadmap.</p>
+<hr />
+<h2 id="how-the-live-rag-flow-works">How the live RAG flow works</h2>
+<p>Ingestion and question answering are the two endpoints I use most
+often. Here is the entire demo flow in plain English:</p>
+<ol type="1">
+<li>Send a URL to <code>POST /pipeline/ingest</code>.</li>
+<li>Crawl4AI fetches the page and turns it into clean markdown.</li>
+<li>The router chunks the text and embeds it with
+<code>sentence-transformers/all-MiniLM-L6-v2</code>.</li>
+<li>Chunks and embeddings go into a managed PostgreSQL + pgvector
+database on Nebius.</li>
+<li>Send a question to <code>POST /pipeline/ask</code>.</li>
+<li>The router retrieves the top-k chunks and forwards them to a Nebius
+Serverless LLM endpoint.</li>
+<li>The LLM returns an answer grounded in the retrieved context.</li>
+</ol>
+<p>Everything behind the router uses Nebius internal networking. Only
+the router itself is exposed publicly, which keeps the attack surface
+small.</p>
+<p>If you want to try it, the public router is running now:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">ROUTER_IP</span><span class="op">=</span><YOUR_ROUTER_IP>:8000</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">ROUTER_TOKEN</span><span class="op">=&lt;</span>your-router-token<span class="op">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Health check</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-H</span> <span class="st">&quot;Authorization: Bearer </span><span class="va">${ROUTER_TOKEN}</span><span class="st">&quot;</span> http://<span class="va">${ROUTER_IP}</span>/health</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Ingest a public URL</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-X</span> POST http://<span class="va">${ROUTER_IP}</span>/pipeline/ingest <span class="dt">\</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">-H</span> <span class="st">&quot;Authorization: Bearer </span><span class="va">${ROUTER_TOKEN}</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">-H</span> <span class="st">&quot;Content-Type: application/json&quot;</span> <span class="dt">\</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span> <span class="st">&#39;{&quot;url&quot;:&quot;https://docs.nebius.com/llms.txt&quot;,&quot;source&quot;:&quot;nebius-llms&quot;}&#39;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Ask a RAG question</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-X</span> POST http://<span class="va">${ROUTER_IP}</span>/pipeline/ask <span class="dt">\</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">-H</span> <span class="st">&quot;Authorization: Bearer </span><span class="va">${ROUTER_TOKEN}</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">-H</span> <span class="st">&quot;Content-Type: application/json&quot;</span> <span class="dt">\</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span> <span class="st">&#39;{&quot;question&quot;:&quot;What AI services does Nebius offer?&quot;,&quot;top_k&quot;:2}&#39;</span></span></code></pre></div>
+<p>Replace <code>$ROUTER_TOKEN</code> with your own token, or open an
+issue in the repo if you want temp access for testing. The commands
+intentionally use a placeholder so I don’t accidentally leak
+credentials.</p>
+<hr />
+<h2 id="why-nebius-fit-this-project">Why Nebius fit this project</h2>
+<p>I could have run this on a rented GPU server, but that would have
+defeated the point. The workbench is designed to feel serverless:
+endpoints start when you need them, scale without my intervention, and
+stop costing money when you stop calling them.</p>
+<p>Nebius made that possible in a few specific ways:</p>
+<ul>
+<li><strong>Serverless AI Endpoints</strong> — the router, Crawl4AI, and
+LLM run as managed endpoints. I don’t operate Kubernetes or babysit
+long-running instances.</li>
+<li><strong>Managed PostgreSQL with pgvector</strong> — vectors and
+metadata live in a service I don’t have to patch or back up myself.</li>
+<li><strong>Integrated Container Registry</strong> — images are built
+locally and pushed straight to Nebius, which keeps the deploy loop
+tight.</li>
+<li><strong>Cost control</strong> — endpoints can be paused or deleted
+between demos, and CPU presets keep the initial stack cheap. When I want
+a larger model, I can swap in a GPU-backed vLLM endpoint without
+rewriting the router.</li>
+</ul>
+<p>That last point matters more than it sounds. A lot of cloud providers
+make the first deployment free but the second iteration expensive. With
+Nebius, I could iterate on the router code, push a new image, and
+redeploy in a few minutes.</p>
+<hr />
+<h2 id="architecture-at-a-glance">Architecture at a glance</h2>
+<pre class="text"><code>User / curl / Open WebUI
+        │
+        ▼
+Workbench Router  ──►  Crawl4AI microservice
+(Nebius Serverless)    (fetch + markdown)
+        │                        │
+        ▼                        ▼
+   LLM endpoint  ◄─────  PostgreSQL pgvector
+(Nebius Serverless)      (chunks + embeddings)</code></pre>
+<p>The router is the only public entry point. Crawl4AI and the LLM are
+Nebius Serverless Endpoints. PostgreSQL is a managed Nebius database.
+Internal traffic never leaves the Nebius network, so I avoid the classic
+problem of exposing ten different microservices to the open
+internet.</p>
+<p>A full Mermaid diagram is in the repository README if you prefer a
+visual version.</p>
+<hr />
+<h2 id="what-i-learned-along-the-way">What I learned along the way</h2>
+<p>The biggest surprise wasn’t technical. It was that most of the work
+had nothing to do with AI and everything to do with plumbing.</p>
+<p>For example, Crawl4AI is great at producing clean markdown, but it
+doesn’t care how you embed it. pgvector is great at vector search, but
+it doesn’t care how you chunk. Open WebUI is great as a chat interface,
+but it expects a specific API shape. The actual value of this workbench
+is the thin layer that translates between those assumptions.</p>
+<p>A few concrete lessons:</p>
+<ul>
+<li><strong>Chunking is underrated.</strong> The same content performs
+very differently depending on chunk size and overlap. I settled on a
+configurable chunker rather than a hard-coded value.</li>
+<li><strong>Internal networking matters.</strong> Keeping tools on the
+same VPC or internal network removed a huge amount of auth and TLS pain.
+Public IPs are only for the router.</li>
+<li><strong>Logs are evidence.</strong> Nebius wants proof the
+submission runs on their platform, so I wrote the router to return clear
+ingestion logs and timing headers. Those logs become the screenshots and
+benchmarks for the submission form.</li>
+<li><strong>Don’t commit secrets.</strong> This sounds obvious, but the
+first draft of the docs contained internal IP addresses that leaked from
+local environment files. I had to rewrite Git history to remove them.
+Now everything sensitive is loaded from environment variables.</li>
+</ul>
+<hr />
+<h2 id="what-comes-next">What comes next</h2>
+<p>The workbench is already usable as a RAG pipeline, but I am not done
+yet.</p>
+<p>The next steps are:</p>
+<ul>
+<li>Complete router adapters for Langflow, Dify, Browser Use, Maxun,
+OpenHands, and Coolify so they become first-class endpoints.</li>
+<li>Add a Nebius Serverless AI Job that batch-crawls and embeds an
+entire website, not just one URL.</li>
+<li>Upgrade the current CPU LLM endpoint to a GPU-backed vLLM endpoint
+once quota allows, which will unlock larger models and longer context
+windows.</li>
+</ul>
+<p>The pattern, though, already works: one router, many open-source
+tools, all running serverless.</p>
+<hr />
+<h2 id="final-thought">Final thought</h2>
+<p>If you are building AI prototypes, you already know the feeling.
+Every new project starts with the same scaffolding: crawl, embed,
+retrieve, generate, chat, export, repeat. The Nebius 10-in-1 AI
+Workbench removes that scaffolding and lets you start with the actual
+problem.</p>
+<p>It is not a magic platform. It is just a clean integration layer on
+top of tools that already do the hard work. And because it runs on
+Nebius Serverless, you only pay for the compute you actually use while
+iterating.</p>
+<p>If you want to see the code, the live demo, or just tell me why this
+is a terrible idea, everything is public:</p>
+<ul>
+<li><strong>Project repo:</strong> <a
+href="https://github.com/pyscalp/10in1-ai">github.com/pyscalp/10in1-ai</a></li>
+<li><strong>Live endpoint:</strong>
+<code>http://<YOUR_ROUTER_IP>:8000</code></li>
+<li><strong>Challenge:</strong> #NebiusServerlessChallenge</li>
+</ul>
+<hr />
+<p><em>Tags: #NebiusServerlessChallenge #RAG #AIWorkbench #OpenSource
+#NebiusAI #Crawl4AI #pgvector #vLLM</em></p>
+</body>
+</html>

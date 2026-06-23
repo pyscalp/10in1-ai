@@ -1,0 +1,51 @@
+# syntax=docker/dockerfile:1
+# Crawl4AI microservice for the Nebius 10-in-1 AI Workbench.
+# Runs a FastAPI wrapper around crawl4ai with Playwright Chromium.
+
+FROM python:3.11-slim-bookworm
+
+WORKDIR /app
+
+# Install system dependencies for Playwright Chromium + build tools.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    gnupg \
+    wget \
+    ca-certificates \
+    libglib2.0-0 \
+    libnss3 \
+    libnspr4 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libdrm2 \
+    libdbus-1-3 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxrandr2 \
+    libgbm1 \
+    libpango-1.0-0 \
+    libcairo2 \
+    libasound2 \
+    libatspi2.0-0 \
+    libwayland-client0 \
+    fonts-noto-color-emoji \
+    fonts-unifont \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies.
+COPY requirements.crawl4ai.txt /app/requirements.crawl4ai.txt
+RUN pip install --no-cache-dir -r /app/requirements.crawl4ai.txt
+
+# Install Playwright Chromium browser.
+RUN python -m playwright install chromium
+
+# Copy application code.
+COPY src/crawl4ai_service /app
+
+ENV PORT=8000
+EXPOSE 8000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

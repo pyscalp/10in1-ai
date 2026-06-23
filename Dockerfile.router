@@ -1,0 +1,28 @@
+# syntax=docker/dockerfile:1
+# Production router image for the Nebius 10-in-1 AI Workbench.
+# This image focuses on the core pipeline (crawl/embed/store/ask).
+# Heavy optional tools (browser-use, playwright, maxun) are excluded to keep
+# the image small and cold-start fast on Nebius Serverless AI Endpoints.
+
+FROM python:3.11-slim-bookworm
+
+WORKDIR /app
+
+# System deps: only what psycopg2 and sentence-transformers need at runtime.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 \
+    libgomp1 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies.
+COPY requirements.router.txt /app/requirements.router.txt
+RUN pip install --no-cache-dir -r /app/requirements.router.txt
+
+# Copy application code.
+COPY src/router /app
+
+ENV PORT=8000
+EXPOSE 8000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

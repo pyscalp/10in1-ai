@@ -1,0 +1,75 @@
+services:
+  # Shared database with pgvector. Used by the router to store chunks / metadata.
+  postgres:
+    image: ankane/pgvector:latest
+    container_name: nebius10_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: workbench
+    ports:
+      - "54322:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./nebius/supabase_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Local Stirling PDF service.
+  stirling-pdf:
+    image: frooodle/s-pdf:latest
+    container_name: nebius10_stirling
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - DOCKER_ENABLE_SECURITY=false
+      - INSTALL_FONTS=false
+
+  # Local Maxun visual-scraping service.
+  # Some Maxun versions require Docker socket access; adjust as needed.
+  maxun:
+    image: getmaxun/maxun:latest
+    container_name: nebius10_maxun
+    restart: unless-stopped
+    ports:
+      - "8082:8080"
+    environment:
+      - NODE_ENV=production
+      - BACKEND_PORT=8080
+    profiles:
+      - full
+
+  # Local Open WebUI chat interface.
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: nebius10_openwebui
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    environment:
+      - WEBUI_AUTH=False
+      - ENABLE_OPENAI_API=True
+      - OPENAI_API_BASE_URL=http://host.docker.internal:8000/llm
+      - OPENAI_API_KEY=nebius-local
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    profiles:
+      - full
+
+  # Optional Langflow container.
+  langflow:
+    image: langflowai/langflow:latest
+    container_name: nebius10_langflow
+    restart: unless-stopped
+    ports:
+      - "7860:7860"
+    profiles:
+      - full
+
+volumes:
+  postgres_data:

@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Env / secrets
+.env
+.env.local
+.env.production
+*.pem
+*.key
+*.crt
+.router_auth_token
+.llm_auth_token
+.db_pass
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Node / JS frontends
+node_modules/
